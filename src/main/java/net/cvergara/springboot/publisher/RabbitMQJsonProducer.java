@@ -10,23 +10,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class RabbitMQJsonProducer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMQJsonProducer.class);
     @Value("${rabbitmq.exchange.name}")
     private String exchange;
+
     @Value("${rabbitmq.routing.json.key}")
     private String routingJsonKey;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMQJsonProducer.class);
+
     private RabbitTemplate rabbitTemplate;
+
     public RabbitMQJsonProducer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-
     public void sendJsonMessage(User user){
-
-        LOGGER.info(String.format("Message sent -> %s " , user));
-        rabbitTemplate.convertAndSend(exchange , routingJsonKey , user);
-
+        LOGGER.info(String.format("Json message sent -> %s", user.toString()));
+        rabbitTemplate.convertAndSend(exchange, routingJsonKey, user);
     }
 
 }
+
